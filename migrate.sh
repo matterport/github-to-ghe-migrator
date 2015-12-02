@@ -1,6 +1,7 @@
 #!/bin/sh
 
-LOCKREPOS=true
+# Be careful with this set to true
+LOCKREPOS=false
 ARCHIVE=githubdotcom-archive.tar.gz
 
 failquit() {
@@ -24,9 +25,9 @@ usagequit() {
 [ -z "$GITHUBUSER" ] && failquit "GITHUBUSER must be set."
 
 # Only support one repo for now. Multiple should be simple.
-for repo in "$1"; do
+#for repo in "$@"; do
 	repos=$repos\"$ORGNAME/$repo\"
-done
+#done
 
 [ -z "$(which curl 2> /dev/null)" ] && failquit 'You need to install curl.'
 
