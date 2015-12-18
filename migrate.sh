@@ -25,16 +25,15 @@ usagequit() {
 [ -z "$GITHUBUSER" ] && failquit "GITHUBUSER must be set."
 
 # Only support one repo for now. Multiple should be simple.
-#for repo in "$@"; do
-	repos=$repos\"$ORGNAME/$repo\"
-#done
+REPO=$1
+REPOS=\"$ORGNAME/$REPO\"
 
 [ -z "$(which curl 2> /dev/null)" ] && failquit 'You need to install curl.'
 
 migrationurl=$( \
 	curl -s -H "Authorization: token $GITHUBTOKEN" -X POST \
 		-H "Accept: application/vnd.github.wyandotte-preview+json" \
-		-d'{"lock_repositories":'"$LOCKREPOS"',"repositories":['"$repos"']}' \
+		-d'{"lock_repositories":'"$LOCKREPOS"',"repositories":['"$REPOS"']}' \
 		"https://api.github.com/orgs/$ORGNAME/migrations" | \
 		grep '"url"' | grep migrations | cut -d \" -f 4
 	)
